@@ -162,3 +162,57 @@ For q = y + 1 To y + cx + d5 / d Step d5 / d
 For w = 1 To x + X1 Step d5 / d
 For e = 1 To z Step d5 / d
 For q1 = 0 To d5 / d - 1: For w1 = 0 To d5 / d - 1: For r1 = 0 To d5 / d - 1
+If (q + q1) <= (y + cx + d5 / d) And (w + w1) <= (x + X1) And (e + r1) <= z Then
+  j(q + q1, w + w1, e + r1).rType = t2: j(q + q1, w + w1, e + r1).rNumber = n: j(q + q1, w + w1, e + r1).rY = q1: j(q + q1, w + w1, e + r1).rX = w1: j(q + q1, w + w1, e + r1).rZ = r1
+End Id
+Next r1: Next w1: Next q1
+n = n + 1
+Next e: Next w: Next q
+'заполнение боковыми породами
+If X1 <> 0 Then
+  For q = 1 To y Step d5 / d
+  For w = x + 1 To x + X1 Step d5 / d
+  For e = 1 To z Step d5 / d
+  For q1 = 0 To d5 / d - 1: For w1 = 0 To d5 / d - 1: For r1 = 0 To d5 / d - 1
+  If (q + q1) <= y And (w + w1) <= (x + X1) And (e + r1) <= z Then
+    j(q + q1, w + w1, e + r1).rType = t3: j(q + q1, w + w1, e + r1).rNumber = n: j(q + q1, w + w1, e + r1).rY = q1: j(q + q1, w + w1, e + r1).rX = w1:j(q + q1, w + w1, e + r1).rZ = r1
+  End If
+  Next r1: Next w1: Next q1
+  n = n + 1
+  Next e: Next w: Next q
+End If
+'подготовка
+u = Int(z / 2)
+ReDim j1(y + cx, x + X1)
+For q = 1 To y + cx
+For w = 1 To x + X1
+j1(q, w) = j(q, w, u).rNumber
+Next w
+Next q
+pb0.Cls
+For q = 1 To y + cx
+If q > y Then
+  pb0.ForeColor = &H4080&: pb0.FillColor = &H4080&
+  For w = 1 To x + X1
+  gp0.fCircle (d * (w - 0.5)) * 8 + 200, 360 - (d * (q - 0.5)) * 8, d * 4
+  gp0.fCircle (d * (w - 0.5)) * 8, 360 - (d * (q - 0.5)) * 8, d * 4
+  Next w
+Else
+  If X1 > 0 Then
+    pb0.ForeColor = &H404040: pb0.FillColor = &H404040
+    For w = x + 1 To x + X1
+    gp0.fCircle (d * w - 0.5)) * 8 + 200, 360 - (d * (q - 0.5)) * 8, d * 4
+    gp0.fCircle (d * w - 0.5)) * 8, 360 - (d * (q - 0.5)) * 8, d * 4
+    Next w
+  End If
+End If
+Next q
+pb0.ForeColor = &HFFFF00: pb0.FillColor = &HFFFF00
+gp0.fLineB 200, 352 - (v_h - 2) * d * 8, 160, 360 - c * 8
+gp0.fLineB 160, 360, (a + 12) * 8 + 200, 380
+gp0.fLineB 0, 360, (a + 12) * 8, 380
+gp0.fLineB 200, 352, a * 8 + 200, 360 - (c - cx * d) * 8
+gp0.fLineB 0, 252, a * 8, 360 - (c - cx * d) * 8
+pb0.ForeColor = &H80000012: pb0.FillColor = &H80000012
+For w = 0 To x - 1 Step 8
+gp0.fLine w * d * 8, 352, w * d * 8, 360 - (c - cx * d) * 8
